@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the associated article."
+title: "A Compact Embedded H.264-over-DECT NR+ System for Mobile Teleoperation"
+authors:
+  - given-names: "José David"
+    family-names: "Guerrero Romero"
+  - given-names: "Antonio Javier"
+    family-names: "García Sánchez"
+  - given-names: "Joan"
+    family-names: "García Haro"
+  - given-names: "Juan Carlos Jacobo"
+    family-names: "Aarnoutse Sánchez"
+  - given-names: "Julián"
+    family-names: "Murillo Portocarrero"
+repository-code: "https://github.com/SodaFMR/dect-nr-embedded-h264-video"

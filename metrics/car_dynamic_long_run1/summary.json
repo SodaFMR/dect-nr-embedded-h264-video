@@ -1,0 +1,32 @@
+{
+  "records": 4408,
+  "received_bytes": 5880472,
+  "nal_counts": {
+    "1": 968,
+    "5": 493,
+    "7": 1473,
+    "8": 1474
+  },
+  "video_frames": 1461,
+  "measurement_duration_s": 179.891,
+  "received_fps": 8.116,
+  "bitrate_kbps": 261.513,
+  "frame_interval_ms_mean": 123.213,
+  "frame_interval_ms_stdev": 36.547,
+  "frame_interval_ms_p50": 125.0,
+  "frame_interval_ms_p95": 172.0,
+  "frame_interval_ms_p99": 203.0,
+  "frame_interval_ms_max": 359.0,
+  "frame_gaps_over_200ms": 25,
+  "frame_gaps_over_500ms": 0,
+  "codec": "h264",
+  "profile": "Constrained Baseline",
+  "width": 1008,
+  "height": 576,
+  "decoded_frames": 1452,
+  "decoder_corrupt_frames": 30,
+  "decoder_errors": 40,
+  "port": "COM5",
+  "baud": 921600,
+  "requested_duration_s": 180.0
+}
