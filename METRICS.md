@@ -122,6 +122,7 @@ white/black alternation. The minimum monitor-synchronisation uncertainty at
 | Effective frame rate | 8.154 FPS |
 | Mean bitrate | 165.531 kbit/s |
 | Mean interval | 122.634 ms |
+| Interval standard deviation | 97.874 ms |
 | Interval 50th percentile | 109 ms |
 | Interval 95th percentile | 266 ms |
 | Interval 99th percentile | 266 ms |
@@ -153,6 +154,7 @@ the GOP and data bursts, rather than complete disconnections.
 | Effective frame rate | 7.862 FPS |
 | Mean bitrate | 292.488 kbit/s |
 | Mean interval | 127.194 ms |
+| Interval standard deviation | 44.294 ms |
 | P50 / P95 / P99 | 125 / 188 / 219 ms |
 | Maximum interval | 234 ms |
 | Gaps longer than 200 ms | 18 |
@@ -181,6 +183,7 @@ approach the size of IDR pictures.
 | Effective frame rate | 8.116 FPS |
 | Mean bitrate | 261.513 kbit/s |
 | Mean interval | 123.213 ms |
+| Interval standard deviation | 36.547 ms |
 | P50 / P95 / P99 | 125 / 172 / 203 ms |
 | Maximum interval | 359 ms |
 | Gaps longer than 200 ms | 25 |
@@ -206,19 +209,48 @@ monitor update
 
 Two independent series of 30 transitions were performed:
 
-| Series | Detected | Mean | Median | P95 | Maximum |
-|---|---:|---:|---:|---:|---:|
-| 1 | 30/30 | 464.433 ms | 453 ms | 531 ms | 609 ms |
-| 2 | 30/30 | 498.400 ms | 476.5 ms | 750 ms | 953 ms |
-| Combined | 60/60 | 481.417 ms | 469 ms | 531 ms | 953 ms |
-
-Combined standard deviation: 81.752 ms.
+| Series | Detected | Mean | Standard deviation | Median | P95 | Maximum |
+|---|---:|---:|---:|---:|---:|---:|
+| 1 | 30/30 | 464.433 ms | 48.376 ms | 453 ms | 531 ms | 609 ms |
+| 2 | 30/30 | 498.400 ms | 102.223 ms | 476.5 ms | 750 ms | 953 ms |
+| Combined | 60/60 | 481.417 ms | 81.752 ms | 469 ms | 531 ms | 953 ms |
 
 This is monitor-to-decoder latency, not radio latency alone. It includes up to
 one capture period, encoding, aggregation wait, transmission, UART output, and
 software presentation.
 
-## 6. Achieved Compression
+## 6. Full-Reference PSNR-Y Reported in the Manuscript
+
+The manuscript reports luminance PSNR (PSNR-Y) for the three controlled
+workloads. The stated procedure compares a source-side reference sequence
+with the corresponding receiver-side H.264 reconstruction after host-side
+decoding. Both sequences are represented at 1008 x 576 pixels; the comparison
+uses the 8-bit luminance component and only successfully decoded matched
+pictures.
+
+| Workload | Matched decoded pictures | Mean PSNR-Y |
+|---|---:|---:|
+| Static, 60 s | 489 | 38.5 dB |
+| Motion, 60 s | 466 | 31.0 dB |
+| Motion, 180 s | 1,452 | 32.5 dB |
+
+For each matched picture, the reported calculation is:
+
+```text
+MSE_Y = mean((Y_reference - Y_received)^2)
+PSNR-Y = 10 log10(255^2 / MSE_Y)
+```
+
+### Availability limitation
+
+The source reference frames and the decoded frame sequences used for this
+PSNR calculation are not available in this repository. Consequently, the
+PSNR-Y values above document the values reported in the manuscript, but they
+cannot be independently recomputed from the public artifacts currently
+provided here. The repository also does not include a PSNR-specific frame
+matching script.
+
+## 7. Achieved Compression
 
 One 1008 x 576 YUV422 picture contains:
 
@@ -243,7 +275,7 @@ Comparison with the measured H.264 bitrate:
 This reduction explains why H.264 video is viable and uncompressed YUV422
 transmission is not.
 
-## 7. Losses and Measurement Limitations
+## 8. Losses and Measurement Limitations
 
 The configured GOP contains one IDR picture and two P pictures. Considering
 only complete GOPs, the inferred absence of P pictures was:
@@ -266,14 +298,8 @@ The following were not measured:
 - The effect of controlled interference.
 - Energy consumption.
 - Control-channel latency.
-- PSNR or SSIM with respect to the original scene.
 
-PSNR and SSIM would not be rigorous when directly comparing the monitor image
-and the camera image, because optics, perspective, focus, exposure, and panel
-response would be included. They would require geometric and radiometric
-calibration.
-
-## 8. Experimental Conclusions
+## 9. Experimental Conclusions
 
 1. The complete chain maintains 1008 x 576 H.264 video for at least three
    minutes without interruptions longer than 500 ms.
@@ -289,7 +315,7 @@ calibration.
 7. The results can serve as a reference for other boards running the same
    firmware, but must be repeated before quantitative equivalence is claimed.
 
-## 9. Artifacts
+## 10. Artifacts
 
 Structured results:
 
